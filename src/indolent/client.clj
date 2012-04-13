@@ -1,6 +1,9 @@
 (ns indolent.client
   (:refer-clojure :exclude [get])
-  (:require [clj-http.client :as http]))
+  (:require [clj-http.client :as http])
+  (:use [slingshot.slingshot :only [try+]]))
 
 (defn get [[root & path]]
-  (http/get root))
+  (try+
+   (http/get root)
+   (catch [:status 404] _ nil)))
