@@ -5,5 +5,5 @@
 
 (defn get [[root & path]]
   (try+
-   (http/get root)
+   (http/get root {:as :json})
    (catch [:status 404] _ nil)))
