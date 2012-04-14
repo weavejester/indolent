@@ -10,4 +10,4 @@
                  [cheshire "4.0.0"]]
   :profiles
   {:dev {:dependencies [[clj-http-fake "0.3.0"]
-                        [ring/ring-core "1.1.0-RC1"]]}})
+                        [ring-json-response "0.2.0"]]}})

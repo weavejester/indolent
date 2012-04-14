@@ -22,6 +22,6 @@
 (defn get [url]
   (try+
    (-?> (make-url url)
-        (http/get {:as :json})
+        (http/get {:as :json, :accept :json})
         :body)
    (catch [:status 404] _ nil)))
