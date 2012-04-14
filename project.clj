@@ -1,4 +1,4 @@
-(defproject indolent "0.1.0-SNAPSHOT"
+(defproject indolent "0.0.1"
   :description "Restful JSON HTTP client"
   :url "https://github.com/weavejester/indolent"
   :license {:name "Eclipse Public License"
