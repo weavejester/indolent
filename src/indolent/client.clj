@@ -6,8 +6,13 @@
   (:use [slingshot.slingshot :only [try+]]
         [clojure.core.incubator :only [-?>]]))
 
+(defn- as-str [x]
+  (if (keyword? x)
+    (name x)
+    (str x)))
+
 (defn- url-encode [s]
-  (URLEncoder/encode s "UTF-8"))
+  (URLEncoder/encode (as-str s) "UTF-8"))
 
 (defn- make-url [[root & paths]]
   (->> (map url-encode paths)

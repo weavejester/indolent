@@ -13,9 +13,14 @@
 
   (testing "URL with paths"
     (with-fake-routes
-      {"http://www.example.com/foo/bar" (constantly (response "{\"a\":\"b\"}"))
-       "http://www.example.com/foo%2Fbar" (constantly (response "{\"c\":\"d\"}"))}
+      {"http://www.example.com/foo/bar"   (constantly (response "{\"a\":\"b\"}"))
+       "http://www.example.com/foo/1"     (constantly (response "{\"c\":\"d\"}"))
+       "http://www.example.com/foo%2Fbar" (constantly (response "{\"e\":\"f\"}"))}
       (is (= (client/get ["http://www.example.com" "foo" "bar"])
              {:a "b"}))
+      (is (= (client/get ["http://www.example.com" :foo :bar])
+             {:a "b"}))
+      (is (= (client/get ["http://www.example.com" :foo 1])
+             {:c "d"}))
       (is (= (client/get ["http://www.example.com" "foo/bar"])
-             {:c "d"})))))
+             {:e "f"})))))
