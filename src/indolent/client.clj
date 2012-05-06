@@ -1,10 +1,18 @@
 (ns indolent.client
   (:refer-clojure :exclude [get])
-  (:import java.net.URLEncoder)
+  (:import java.net.URLEncoder
+           clojure.lang.IDeref)
   (:require [clj-http.client :as http]
             [clojure.string :as str])
   (:use [slingshot.slingshot :only [try+]]
         [clojure.core.incubator :only [-?>]]))
+
+(defrecord Resource [url]
+  IDeref
+  (deref [_]
+    (try+
+     (:body (http/get url {:as :json, :accept :json}))
+     (catch [:status 404] _ nil))))
 
 (defn- as-str [x]
   (if (keyword? x)
@@ -19,9 +27,5 @@
        (str/join "/")
        (str root "/")))
 
-(defn get [url]
-  (try+
-   (-?> (make-url url)
-        (http/get {:as :json, :accept :json})
-        :body)
-   (catch [:status 404] _ nil)))
+(defn resource [& url-parts]
+  (Resource. (make-url url-parts)))
